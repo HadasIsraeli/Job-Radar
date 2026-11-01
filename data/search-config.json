@@ -46,45 +46,205 @@
     "accept_hybrid": true
   },
   "companies": [
-    { "name": "Wix", "ats": null, "board_id": null },
-    { "name": "Monday.com", "ats": null, "board_id": null },
-    { "name": "Riskified", "ats": null, "board_id": null },
-    { "name": "Gong", "ats": null, "board_id": null },
-    { "name": "Melio", "ats": null, "board_id": null },
-    { "name": "Fireblocks", "ats": null, "board_id": null },
-    { "name": "Lemonade", "ats": null, "board_id": null },
-    { "name": "Papaya Global", "ats": null, "board_id": null },
-    { "name": "AppsFlyer", "ats": null, "board_id": null },
-    { "name": "Taboola", "ats": null, "board_id": null },
-    { "name": "Outbrain", "ats": null, "board_id": null },
-    { "name": "Forter", "ats": null, "board_id": null },
-    { "name": "WalkMe", "ats": null, "board_id": null },
-    { "name": "JFrog", "ats": null, "board_id": null },
-    { "name": "Similarweb", "ats": null, "board_id": null },
-    { "name": "Yotpo", "ats": null, "board_id": null },
-    { "name": "DriveNets", "ats": null, "board_id": null },
-    { "name": "Snyk", "ats": null, "board_id": null },
-    { "name": "Rapyd", "ats": null, "board_id": null },
-    { "name": "Payoneer", "ats": null, "board_id": null },
-    { "name": "Next Insurance", "ats": null, "board_id": null },
-    { "name": "Cato Networks", "ats": null, "board_id": null },
-    { "name": "Redis", "ats": null, "board_id": null },
-    { "name": "VAST Data", "ats": null, "board_id": null },
-    { "name": "Tipalti", "ats": null, "board_id": null },
-    { "name": "Guesty", "ats": null, "board_id": null },
-    { "name": "Navan", "ats": null, "board_id": null },
-    { "name": "Moon Active", "ats": null, "board_id": null },
-    { "name": "Playtika", "ats": null, "board_id": null },
-    { "name": "Unity (ironSource)", "ats": null, "board_id": null },
-    { "name": "Pagaya", "ats": null, "board_id": null },
-    { "name": "HiBob", "ats": null, "board_id": null },
-    { "name": "Zoomin Software", "ats": null, "board_id": null },
-    { "name": "Armis", "ats": null, "board_id": null },
-    { "name": "Wiz", "ats": null, "board_id": null },
-    { "name": "Aqua Security", "ats": null, "board_id": null },
-    { "name": "Orca Security", "ats": null, "board_id": null },
-    { "name": "NICE", "ats": null, "board_id": null },
-    { "name": "Check Point", "ats": null, "board_id": null },
-    { "name": "SentinelOne", "ats": null, "board_id": null }
+    {
+      "name": "Wix",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Monday.com",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Riskified",
+      "ats": "greenhouse",
+      "board_id": "riskified"
+    },
+    {
+      "name": "Gong",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Melio",
+      "ats": "greenhouse",
+      "board_id": "melio"
+    },
+    {
+      "name": "Fireblocks",
+      "ats": "greenhouse",
+      "board_id": "fireblocks"
+    },
+    {
+      "name": "Lemonade",
+      "ats": "ashby",
+      "board_id": "lemonade"
+    },
+    {
+      "name": "Papaya Global",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "AppsFlyer",
+      "ats": "greenhouse",
+      "board_id": "appsflyer"
+    },
+    {
+      "name": "Taboola",
+      "ats": "greenhouse",
+      "board_id": "taboola"
+    },
+    {
+      "name": "Outbrain",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Forter",
+      "ats": "greenhouse",
+      "board_id": "forter"
+    },
+    {
+      "name": "WalkMe",
+      "ats": "lever",
+      "board_id": "walkme"
+    },
+    {
+      "name": "JFrog",
+      "ats": "greenhouse",
+      "board_id": "jfrog"
+    },
+    {
+      "name": "Similarweb",
+      "ats": "greenhouse",
+      "board_id": "similarweb"
+    },
+    {
+      "name": "Yotpo",
+      "ats": "greenhouse",
+      "board_id": "yotpo"
+    },
+    {
+      "name": "DriveNets",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Snyk",
+      "ats": "ashby",
+      "board_id": "snyk"
+    },
+    {
+      "name": "Rapyd",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Payoneer",
+      "ats": "greenhouse",
+      "board_id": "payoneer"
+    },
+    {
+      "name": "Next Insurance",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Cato Networks",
+      "ats": "greenhouse",
+      "board_id": "catonetworks"
+    },
+    {
+      "name": "Redis",
+      "ats": "ashby",
+      "board_id": "redis"
+    },
+    {
+      "name": "VAST Data",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Tipalti",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Guesty",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Navan",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Moon Active",
+      "ats": "ashby",
+      "board_id": "moonactive"
+    },
+    {
+      "name": "Playtika",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Unity (ironSource)",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Pagaya",
+      "ats": "greenhouse",
+      "board_id": "pagaya"
+    },
+    {
+      "name": "HiBob",
+      "ats": "smartrecruiters",
+      "board_id": "hibob"
+    },
+    {
+      "name": "Zoomin Software",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Armis",
+      "ats": "smartrecruiters",
+      "board_id": "armis"
+    },
+    {
+      "name": "Wiz",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Aqua Security",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "Orca Security",
+      "ats": "greenhouse",
+      "board_id": "orcasecurity"
+    },
+    {
+      "name": "NICE",
+      "ats": "greenhouse",
+      "board_id": "nice"
+    },
+    {
+      "name": "Check Point",
+      "ats": null,
+      "board_id": null
+    },
+    {
+      "name": "SentinelOne",
+      "ats": null,
+      "board_id": null
+    }
   ]
 }

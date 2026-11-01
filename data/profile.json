@@ -39,7 +39,14 @@
     "design_tools": ["Figma", "Framer", "Adobe XD", "Photoshop", "Illustrator"],
     "development": ["HTML", "CSS", "JavaScript", "Angular", "Git"],
     "ai_tools": ["ChatGPT", "Claude", "GitHub Copilot", "Lovable", "Base44"],
-    "collaboration_tools": ["Jira", "GitHub", "Postman", "Firebase", "Google Cloud Platform", "Slack"]
+    "collaboration_tools": [
+      "Jira",
+      "GitHub",
+      "Postman",
+      "Firebase",
+      "Google Cloud Platform",
+      "Slack"
+    ]
   },
   "languages": [
     { "language": "Hebrew", "level": "native" },
