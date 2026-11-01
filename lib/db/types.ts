@@ -1,6 +1,7 @@
 import type { Analysis } from "@/lib/matching/types";
 
 export type WorkModel = "office" | "hybrid" | "remote" | "unknown";
+export type Seniority = "junior" | "mid" | "senior" | "lead" | "unknown";
 export type JobActionStatus = "new" | "saved" | "applied" | "not_relevant";
 export type ScoreFeedback = "accurate" | "too_high" | "too_low";
 
@@ -15,7 +16,7 @@ export interface NormalizedJob {
   url: string;
   sources: string[];
   description: string;
-  seniority: string | null;
+  seniority: Seniority;
   employmentType: string | null;
   industry: string | null;
   languageRequired: string | null;

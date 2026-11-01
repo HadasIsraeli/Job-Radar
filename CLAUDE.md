@@ -66,3 +66,12 @@ here) — same two-stage design, same deterministic scoring
 requests-per-minute limit isn't published, so `lib/matching/client.ts` paces calls conservatively
 (`MIN_INTERVAL_MS`) rather than guessing a number — tune it down once you've checked your actual
 limit in Google AI Studio. This note is the authority over the spec's "Anthropic SDK" wording.
+
+**Phase 6 filters cover what the data actually supports.** `seniority` is detected from the job
+title (`lib/normalize.ts`'s `detectSeniority`); `industry`, `language_required`, and company
+size/stage are never populated by any connector, so there's no filter for them — don't add one
+without first adding real data for it. Full-text search uses `config: "simple"` explicitly
+(`lib/db/jobs.ts`) because Supabase's default "english" config stems query words
+("lemonade" -> "lemonad"), which silently matched nothing against the unstemmed stored
+`search_vector`. Hebrew search works at the query level (`simple` does no language-specific
+processing either way) but is untested against real data — all seeded postings are in English.

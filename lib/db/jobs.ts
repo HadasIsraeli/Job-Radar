@@ -8,6 +8,8 @@ import type {
   DashboardJob,
   JobActionStatus,
   ScoreFeedback,
+  WorkModel,
+  Seniority,
 } from "./types";
 
 const jobRowSchema = z.object({
@@ -22,7 +24,9 @@ const jobRowSchema = z.object({
   url: z.string(),
   sources: z.array(z.string()),
   description: z.string(),
-  seniority: z.string().nullable(),
+  // Nullable in the schema for rows written before seniority detection
+  // existed (Phase 6) — treated as "unknown", same as a fresh row would be.
+  seniority: z.enum(["junior", "mid", "senior", "lead", "unknown"]).nullable(),
   employment_type: z.string().nullable(),
   industry: z.string().nullable(),
   language_required: z.string().nullable(),
@@ -59,7 +63,7 @@ function toJobRecord(row: z.infer<typeof jobRowSchema>): JobRecord {
     url: row.url,
     sources: row.sources,
     description: row.description,
-    seniority: row.seniority,
+    seniority: row.seniority ?? "unknown",
     employmentType: row.employment_type,
     industry: row.industry,
     languageRequired: row.language_required,
@@ -147,15 +151,30 @@ export async function upsertAnalysis(jobId: string, analysis: AnalysisRecord): P
   if (error) throw new Error(`upsertAnalysis failed: ${error.message}`);
 }
 
+// Source "platform" — the part of a sources[] entry before the ":"
+// (e.g. "greenhouse:riskified" -> "greenhouse"). Company-level filtering is
+// already covered by `search` (full-text on company + title + description).
+export type SourcePlatform =
+  "greenhouse" | "lever" | "ashby" | "smartrecruiters" | "workable" | "comeet" | "serpapi";
+
 export interface ListJobsFilters {
   minScore?: number;
+  maxScore?: number;
   sinceHours?: number;
   search?: string;
   statuses?: JobActionStatus[];
+  workModels?: WorkModel[];
+  seniorities?: Seniority[];
+  city?: string;
+  employmentTypes?: string[];
+  sourcePlatforms?: SourcePlatform[];
 }
 
 // The dashboard's main query: jobs joined with their analysis and action.
 // Jobs without an analysis yet are excluded (nothing to show a score for).
+// sourcePlatforms is applied in JS after the fetch (see the comment above
+// SourcePlatform) rather than at the query level, since Supabase's filter
+// builder has no clean prefix-match-within-array operator.
 export async function listJobs(filters: ListJobsFilters = {}): Promise<DashboardJob[]> {
   const supabase = getSupabaseClient();
   let query = supabase
@@ -166,12 +185,34 @@ export async function listJobs(filters: ListJobsFilters = {}): Promise<Dashboard
   if (filters.minScore !== undefined) {
     query = query.gte("analyses.score", filters.minScore);
   }
+  if (filters.maxScore !== undefined) {
+    query = query.lte("analyses.score", filters.maxScore);
+  }
   if (filters.sinceHours !== undefined) {
     const since = new Date(Date.now() - filters.sinceHours * 60 * 60 * 1000).toISOString();
     query = query.or(`posted_at.gte.${since},and(posted_at.is.null,first_seen_at.gte.${since})`);
   }
   if (filters.search) {
-    query = query.textSearch("search_vector", filters.search, { type: "websearch" });
+    // config: "simple" must match the tsvector's own config (see the
+    // generated column in supabase/migrations/0001_init.sql) — the default
+    // "english" config stems query words (e.g. "lemonade" -> "lemonad"),
+    // which silently matched nothing against the unstemmed stored vector.
+    query = query.textSearch("search_vector", filters.search, {
+      type: "websearch",
+      config: "simple",
+    });
+  }
+  if (filters.workModels && filters.workModels.length > 0) {
+    query = query.in("work_model", filters.workModels);
+  }
+  if (filters.seniorities && filters.seniorities.length > 0) {
+    query = query.in("seniority", filters.seniorities);
+  }
+  if (filters.city) {
+    query = query.ilike("city", `%${filters.city}%`);
+  }
+  if (filters.employmentTypes && filters.employmentTypes.length > 0) {
+    query = query.in("employment_type", filters.employmentTypes);
   }
 
   const { data, error } = await query;
@@ -190,7 +231,20 @@ export async function listJobs(filters: ListJobsFilters = {}): Promise<Dashboard
       ? actionRowSchema.parse({ job_id: job.id, ...actionRows[0] })
       : null;
 
-    if (filters.statuses && !filters.statuses.includes(action?.status ?? "new")) continue;
+    if (
+      filters.statuses &&
+      filters.statuses.length > 0 &&
+      !filters.statuses.includes(action?.status ?? "new")
+    ) {
+      continue;
+    }
+    if (
+      filters.sourcePlatforms &&
+      filters.sourcePlatforms.length > 0 &&
+      !job.sources.some((s) => filters.sourcePlatforms?.includes(s.split(":")[0] as SourcePlatform))
+    ) {
+      continue;
+    }
 
     results.push({
       job,

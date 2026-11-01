@@ -1,5 +1,5 @@
 import type { RawJob, WorkModelHint } from "./sources/types";
-import type { NormalizedJob, WorkModel } from "./db/types";
+import type { NormalizedJob, WorkModel, Seniority } from "./db/types";
 
 // Heuristic fallback only — used when the source gives no structured
 // work-model field (see RawJob.workModelHint). Checked most-specific first
@@ -15,6 +15,23 @@ export function detectWorkModel(text: string, hint?: WorkModelHint | null): Work
   if (HYBRID_KEYWORD.test(text) || HYBRID_DAYS_PATTERN.test(text)) return "hybrid";
   if (REMOTE_KEYWORD.test(text)) return "remote";
   if (OFFICE_KEYWORD.test(text)) return "office";
+  return "unknown";
+}
+
+// Title-only heuristic — deliberately checked against the title alone, not
+// the full description, since a description mentioning e.g. "mentoring
+// junior designers" shouldn't tag a Senior role as junior. Defaults to
+// "unknown" rather than guessing "mid" when nothing signals a level: most
+// postings with no seniority word in the title could be any level, and a
+// silent "mid" default would misfilter them.
+const LEAD_KEYWORD = /\bstaff\b|\bprincipal\b|\blead\b|head of|\bdirector\b|\bvp\b/i;
+const SENIOR_KEYWORD = /\bsenior\b|\bsr\.?\b|בכיר(ה)?/i;
+const JUNIOR_KEYWORD = /\bjunior\b|\bjr\.?\b|entry.level|\bintern(ship)?\b|מתחיל(ה)?/i;
+
+export function detectSeniority(title: string): Seniority {
+  if (LEAD_KEYWORD.test(title)) return "lead";
+  if (SENIOR_KEYWORD.test(title)) return "senior";
+  if (JUNIOR_KEYWORD.test(title)) return "junior";
   return "unknown";
 }
 
@@ -53,7 +70,7 @@ export function normalizeRawJob(raw: RawJob): NormalizedJob {
     url: raw.url,
     sources: [raw.source],
     description: raw.description,
-    seniority: null,
+    seniority: detectSeniority(raw.title),
     employmentType: raw.employmentType ?? null,
     industry: null,
     languageRequired: null,

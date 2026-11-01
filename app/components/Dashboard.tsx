@@ -7,48 +7,24 @@ import { JobDetailPanel } from "./JobDetailPanel";
 import { formatRelativeTime } from "@/lib/time";
 import type { DashboardJob } from "@/lib/db/types";
 
+// Score filtering now lives in the URL via FilterBar's "minScore" select, so
+// this just renders whatever page.tsx's listJobs() call already filtered.
 export function Dashboard({ jobs }: { jobs: DashboardJob[] }) {
-  const [showNearMatches, setShowNearMatches] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const matches = jobs.filter((j) => (j.analysis?.score ?? 0) >= 80);
-  const nearMatches = jobs.filter((j) => {
-    const score = j.analysis?.score ?? 0;
-    return score >= 70 && score < 80;
-  });
-  const visible = showNearMatches ? [...matches, ...nearMatches] : matches;
   const selected = jobs.find((j) => j.job.id === selectedId) ?? null;
 
   return (
     <div className="flex flex-1 min-h-0">
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm text-neutral-500">
-              {matches.length} התאמות
-              {nearMatches.length > 0 &&
-                !showNearMatches &&
-                ` · ${nearMatches.length} קרובות מוסתרות`}
-            </h2>
-            {nearMatches.length > 0 && (
-              <label className="flex items-center gap-2 text-sm text-neutral-600 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={showNearMatches}
-                  onChange={(e) => setShowNearMatches(e.target.checked)}
-                  className="accent-emerald-600"
-                />
-                הצג גם התאמות קרובות (70-79)
-              </label>
-            )}
-          </div>
+          <h2 className="text-sm text-neutral-500 mb-4">{jobs.length} משרות</h2>
 
-          {visible.length === 0 && (
+          {jobs.length === 0 && (
             <p className="text-neutral-500 text-center py-12">אין משרות מתאימות להצגה כרגע.</p>
           )}
 
           <ul className="space-y-2">
-            {visible.map((dashboardJob) => {
+            {jobs.map((dashboardJob) => {
               const { job, analysis } = dashboardJob;
               const postedTime = job.postedAt ?? job.firstSeenAt;
               return (
