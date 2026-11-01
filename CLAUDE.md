@@ -49,6 +49,20 @@ spec (Hebrew) and phase plan. Build and review one phase at a time.
 
 ## Stack
 
-Next.js (App Router) + TypeScript + Tailwind, Supabase (Postgres), Anthropic SDK
-(`claude-haiku-5-5` pre-filter, `claude-sonnet-5-5` full analysis), deployed to Vercel or Render.
+Next.js (App Router) + TypeScript + Tailwind, Supabase (Postgres), deployed to Vercel or Render.
 GitHub Actions cron for the daily scan (07:00 Asia/Jerusalem, DST-safe).
+
+**Matching engine runs on the Gemini API free tier, not Anthropic — decided in Phase 4.**
+`job-radar-spec.md`'s Part C prompt calls for the Anthropic SDK (`claude-haiku-5-5` /
+`claude-sonnet-5-5`); that requires its own billing separate from a claude.ai subscription, and
+the user declined to pay for it. `@google/genai` (`GEMINI_API_KEY`) replaces it everywhere the
+spec says "Claude"/"Anthropic", via `ai.models.generateContent()` with `responseJsonSchema` for
+structured output — not the SDK's newer `interactions` surface, which exists in the same package
+but is less established; `gemini-flash-lite-latest` for the cheap pre-filter,
+`gemini-flash-latest` for the full analysis (rolling aliases, not pinned dated models — Gemini
+model names have churned enough that auto-upgrading matters more than exact reproducibility
+here) — same two-stage design, same deterministic scoring
+(`lib/matching/score.ts` is provider-agnostic and unaffected). The free tier's exact
+requests-per-minute limit isn't published, so `lib/matching/client.ts` paces calls conservatively
+(`MIN_INTERVAL_MS`) rather than guessing a number — tune it down once you've checked your actual
+limit in Google AI Studio. This note is the authority over the spec's "Anthropic SDK" wording.
