@@ -10,6 +10,14 @@ spec (Hebrew) and phase plan. Build and review one phase at a time.
 - **No LinkedIn scraping.** Use legal sources only (ATS APIs, SerpAPI/Google Jobs, Gmail Job
   Alerts parsing). For any new scraped site, check `robots.txt` and terms first, rate-limit
   requests, and ask before adding it.
+- **Israeli job boards (AllJobs, Drushim, JobMaster) are out of scope — decided in Phase 2.**
+  Drushim's terms explicitly ban automated collection ("ללקט ממנו מידע באמצעות תוכנות אוטומטיות").
+  AllJobs and JobMaster both broadly prohibit copying/republishing site content, job listings
+  included, with no scraping exception. Don't add connectors for these without a fresh ToS
+  review and explicit sign-off — the ATS connectors + SerpAPI cover the Israeli market anyway.
+- **Indeed is out of scope** — its job-search API requires an approved publisher partnership,
+  not available for a personal project. SerpAPI's Google Jobs results already surface many
+  Indeed-sourced postings.
 - Every job source is an isolated connector implementing `fetchJobs(since: Date): Promise<RawJob[]>`.
   One failing source must never break the daily run — catch and log per-source errors.
 
