@@ -1,0 +1,48 @@
+name: Daily job scan
+
+on:
+  # GitHub Actions cron is UTC-only. 07:00 Asia/Jerusalem is 05:00 UTC in
+  # winter (IST, UTC+2) and 04:00 UTC in summer (IDT, UTC+3) — both are
+  # scheduled, and the "Check it's actually 07:00 Israel time" step below
+  # skips the one that doesn't match on any given day, so DST is handled
+  # without hardcoding which weeks are summer/winter.
+  schedule:
+    - cron: "0 4 * * *"
+    - cron: "0 5 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Check it's actually 07:00 Israel time
+        if: github.event_name == 'schedule'
+        run: |
+          hour=$(TZ=Asia/Jerusalem date +%H)
+          if [ "$hour" != "07" ]; then
+            echo "Not 07:00 Israel time (it's $hour:00) — this is the other DST trigger, skipping."
+            echo "SKIP=true" >> "$GITHUB_ENV"
+          fi
+
+      - uses: actions/checkout@v4
+        if: env.SKIP != 'true'
+
+      - uses: actions/setup-node@v4
+        if: env.SKIP != 'true'
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        if: env.SKIP != 'true'
+        run: npm ci
+
+      - name: Run daily scan
+        if: env.SKIP != 'true'
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+        run: npx tsx scripts/run-daily-scan.mts

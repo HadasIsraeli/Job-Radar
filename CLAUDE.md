@@ -20,6 +20,9 @@ spec (Hebrew) and phase plan. Build and review one phase at a time.
   Indeed-sourced postings.
 - Every job source is an isolated connector implementing `fetchJobs(since: Date): Promise<RawJob[]>`.
   One failing source must never break the daily run — catch and log per-source errors.
+- **Never commit GitHub Actions secrets or real values into `.github/workflows/*.yml`.** They're
+  injected via `${{ secrets.X }}` (set in the repo's Settings → Secrets and variables → Actions)
+  — see the README's "Daily scan" section for the full list to set.
 
 ## Engineering standards
 

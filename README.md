@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Job Radar
 
-## Getting Started
+Personal job-scanning dashboard. See [`job-radar-spec.md`](./job-radar-spec.md) for the full
+product spec (Hebrew) and [`CLAUDE.md`](./CLAUDE.md) for project rules, engineering standards,
+and where this build deviates from the spec.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. `npm install`
+2. Copy `.env.example` to `.env.local` and fill in the values (see the comments in that file for
+   where each key comes from).
+3. `npm run dev` — open [http://localhost:3000](http://localhost:3000).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Drop `cv-en.pdf` and `cv-he.pdf` in the project root if you need to regenerate `data/profile.json`
+(they're gitignored, never committed).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` / `npm run build` / `npm run start` — standard Next.js.
+- `npm run typecheck` / `npm run lint` / `npm run format`.
+- `npx tsx scripts/run-daily-scan.mts` — runs the full fetch → normalize → match → store pipeline
+  once, locally. This is what the daily GitHub Actions workflow runs.
+- `npx tsx scripts/seed-dev-data.mts [sampleSize]` — dev utility: populates real Supabase data for
+  local UI testing without waiting for a real 24h posting window.
+- `npx tsx scripts/verify-ats-boards.mjs` — re-resolves `data/search-config.json` companies
+  against live ATS APIs when adding new companies (see the caveats in the script's own comment
+  about slug-collision risk).
 
-## Learn More
+## Daily scan (GitHub Actions)
 
-To learn more about Next.js, take a look at the following resources:
+[`.github/workflows/daily-scan.yml`](./.github/workflows/daily-scan.yml) runs
+`scripts/run-daily-scan.mts` every morning at 07:00 Israel time (DST-aware — see the workflow
+file's comments). For this to run, the repository needs these **Actions secrets** (Settings →
+Secrets and variables → Actions), matching `.env.local`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `GEMINI_API_KEY`
+- `SERPAPI_KEY` (optional — Google Jobs source is skipped if unset)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+It can also be triggered manually from the Actions tab (`workflow_dispatch`).
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy to Vercel or Render (see `CLAUDE.md`). The dashboard is password-protected via
+`SITE_PASSWORD` (HTTP Basic Auth, `middleware.ts`) since it's a personal, non-public site.
