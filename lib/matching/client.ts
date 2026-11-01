@@ -33,18 +33,24 @@ async function pace(): Promise<void> {
   lastCallAt = Date.now();
 }
 
-// One retry with backoff on 429 (rate limited) — free-tier quotas are
-// small enough that a single transient rate-limit hit shouldn't fail an
-// entire job's analysis.
+const RETRYABLE_STATUSES = new Set([429, 500, 502, 503, 504]);
+const MAX_ATTEMPTS = 3;
+
+// Retries with backoff on rate limiting (429) and transient server errors
+// (5xx, including the free tier's frequent "model overloaded" 503) — a
+// single job shouldn't fail its analysis over a transient hiccup.
 export async function callGemini<T>(fn: () => Promise<T>): Promise<T> {
-  await pace();
-  try {
-    return await fn();
-  } catch (err) {
-    const status = (err as { status?: number }).status;
-    if (status !== 429) throw err;
-    await new Promise((resolve) => setTimeout(resolve, 15000));
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
     await pace();
-    return fn();
+    try {
+      return await fn();
+    } catch (err) {
+      const status = (err as { status?: number }).status;
+      if (!status || !RETRYABLE_STATUSES.has(status) || attempt === MAX_ATTEMPTS) throw err;
+      lastErr = err;
+      await new Promise((resolve) => setTimeout(resolve, attempt * 10000));
+    }
   }
+  throw lastErr;
 }
