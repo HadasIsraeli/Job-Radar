@@ -1,0 +1,90 @@
+{
+  "_notes": [
+    "Company board_id/ats fields are unverified placeholders. Phase 2 resolves and verifies each company's actual ATS and board identifier against the live Greenhouse/Lever/Ashby/Comeet/Workable/SmartRecruiters APIs, and drops any company that doesn't resolve to a real board.",
+    "This list is a starting seed of Israeli tech companies plausible for product/UX/UI design hiring, not a guarantee any of them currently has an open design role or even uses one of these ATS platforms."
+  ],
+  "target_titles": {
+    "en": [
+      "Product Designer",
+      "UX/UI Designer",
+      "UX Designer",
+      "UI Designer",
+      "Senior Product Designer",
+      "Design Systems Designer",
+      "Design Engineer",
+      "UX Researcher"
+    ],
+    "he": ["מעצב/ת מוצר", "מעצב/ת UX/UI", "מעצב/ת UX", "מעצב/ת UI"]
+  },
+  "keywords": {
+    "include": [
+      "product design",
+      "ux design",
+      "ui design",
+      "user research",
+      "design systems",
+      "wireframe",
+      "prototyp",
+      "figma",
+      "עיצוב מוצר",
+      "עיצוב UX",
+      "עיצוב UI",
+      "מחקר משתמשים"
+    ],
+    "exclude": [
+      "graphic designer only (print)",
+      "motion designer only",
+      "3d artist",
+      "game artist",
+      "interior design"
+    ]
+  },
+  "seniority_filter": ["junior", "mid", "senior"],
+  "locations": {
+    "primary": ["Tel Aviv", "Ramat Gan", "Herzliya", "Petah Tikva", "Israel"],
+    "accept_remote": true,
+    "accept_hybrid": true
+  },
+  "companies": [
+    { "name": "Wix", "ats": null, "board_id": null },
+    { "name": "Monday.com", "ats": null, "board_id": null },
+    { "name": "Riskified", "ats": null, "board_id": null },
+    { "name": "Gong", "ats": null, "board_id": null },
+    { "name": "Melio", "ats": null, "board_id": null },
+    { "name": "Fireblocks", "ats": null, "board_id": null },
+    { "name": "Lemonade", "ats": null, "board_id": null },
+    { "name": "Papaya Global", "ats": null, "board_id": null },
+    { "name": "AppsFlyer", "ats": null, "board_id": null },
+    { "name": "Taboola", "ats": null, "board_id": null },
+    { "name": "Outbrain", "ats": null, "board_id": null },
+    { "name": "Forter", "ats": null, "board_id": null },
+    { "name": "WalkMe", "ats": null, "board_id": null },
+    { "name": "JFrog", "ats": null, "board_id": null },
+    { "name": "Similarweb", "ats": null, "board_id": null },
+    { "name": "Yotpo", "ats": null, "board_id": null },
+    { "name": "DriveNets", "ats": null, "board_id": null },
+    { "name": "Snyk", "ats": null, "board_id": null },
+    { "name": "Rapyd", "ats": null, "board_id": null },
+    { "name": "Payoneer", "ats": null, "board_id": null },
+    { "name": "Next Insurance", "ats": null, "board_id": null },
+    { "name": "Cato Networks", "ats": null, "board_id": null },
+    { "name": "Redis", "ats": null, "board_id": null },
+    { "name": "VAST Data", "ats": null, "board_id": null },
+    { "name": "Tipalti", "ats": null, "board_id": null },
+    { "name": "Guesty", "ats": null, "board_id": null },
+    { "name": "Navan", "ats": null, "board_id": null },
+    { "name": "Moon Active", "ats": null, "board_id": null },
+    { "name": "Playtika", "ats": null, "board_id": null },
+    { "name": "Unity (ironSource)", "ats": null, "board_id": null },
+    { "name": "Pagaya", "ats": null, "board_id": null },
+    { "name": "HiBob", "ats": null, "board_id": null },
+    { "name": "Zoomin Software", "ats": null, "board_id": null },
+    { "name": "Armis", "ats": null, "board_id": null },
+    { "name": "Wiz", "ats": null, "board_id": null },
+    { "name": "Aqua Security", "ats": null, "board_id": null },
+    { "name": "Orca Security", "ats": null, "board_id": null },
+    { "name": "NICE", "ats": null, "board_id": null },
+    { "name": "Check Point", "ats": null, "board_id": null },
+    { "name": "SentinelOne", "ats": null, "board_id": null }
+  ]
+}

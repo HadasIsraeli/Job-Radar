@@ -1,0 +1,122 @@
+{
+  "name": "Hadas Bashlikov",
+  "contact": {
+    "phone": "052-6559716",
+    "email": "hadasbashlikov@gmail.com",
+    "linkedin": "LinkedIn (see CV)",
+    "portfolio": "Portfolio (see CV)"
+  },
+  "headline": {
+    "en": "Product Designer with 4 years combining UX/UI design, user research, and development across startups, SaaS, and defense environments.",
+    "he": "מעצבת מוצר עם 4 שנות ניסיון המשלבות עיצוב UX/UI, מחקר משתמשים ופיתוח תוכנה בחברות סטארטאפ, SaaS וביטחון."
+  },
+  "target_roles": [
+    "Product Designer",
+    "UX/UI Designer",
+    "UX Designer",
+    "UI Designer",
+    "Design Systems Designer",
+    "Design Engineer (hybrid design + front-end)"
+  ],
+  "years_experience": {
+    "total": 4,
+    "by_discipline": {
+      "ux_ui_design": 4,
+      "user_research": 4,
+      "front_end_development": 2
+    }
+  },
+  "seniority": "mid",
+  "skills": {
+    "ux_design": [
+      "User Research",
+      "Competitive Analysis",
+      "User Flows",
+      "Wireframing",
+      "Prototyping",
+      "Design Systems"
+    ],
+    "design_tools": ["Figma", "Framer", "Adobe XD", "Photoshop", "Illustrator"],
+    "development": ["HTML", "CSS", "JavaScript", "Angular", "Git"],
+    "ai_tools": ["ChatGPT", "Claude", "GitHub Copilot", "Lovable", "Base44"],
+    "collaboration_tools": ["Jira", "GitHub", "Postman", "Firebase", "Google Cloud Platform", "Slack"]
+  },
+  "languages": [
+    { "language": "Hebrew", "level": "native" },
+    { "language": "English", "level": "proficient" }
+  ],
+  "education": [
+    {
+      "credential": "Professional Certification, UX/UI & Graphic Design",
+      "institution": "Netcraft Academy",
+      "years": "2024-2025"
+    },
+    {
+      "credential": "B.Sc. Computer Science",
+      "institution": "Holon Institute of Technology (HIT)",
+      "years": "2019-2022"
+    }
+  ],
+  "experience": [
+    {
+      "title": "Front End Developer",
+      "company": "Tabit",
+      "years": "2024-2025",
+      "domain": "front_end_development",
+      "achievements": [
+        "Developed enterprise B2B workflows, including bulk employee onboarding (100+ records) and rule-based permission management, improving operational efficiency for restaurant chains.",
+        "Improved usability and performance of data-intensive interfaces displaying 1,000+ records by optimizing load times and contributing to a shared UI component library.",
+        "Collaborated with product managers and designers to translate business requirements into scalable user-facing solutions."
+      ],
+      "quantified_metrics": ["100+ records (onboarding)", "1,000+ records (data interfaces)"]
+    },
+    {
+      "title": "UX/UI Designer & Developer",
+      "company": "CRG | Defense Technology - Israeli Air Force",
+      "years": "2023-2024",
+      "domain": "ux_ui_design",
+      "achievements": [
+        "Conducted user interviews and requirements gathering with operational stakeholders to redesign mission-critical systems, serving as the team's primary UX-focused contributor.",
+        "Redesigned manual workflows into intuitive digital experiences, improving usability and supporting faster operational decision-making.",
+        "Delivered a mission-critical digital solution within one week during wartime, replacing manual processes with real-time operational visibility."
+      ],
+      "quantified_metrics": ["delivered within 1 week under wartime pressure"]
+    },
+    {
+      "title": "UX/UI Designer & Developer",
+      "company": "WebC (Startup)",
+      "years": "2021-2023",
+      "domain": "ux_ui_design",
+      "achievements": [
+        "Led end-to-end UX/UI design and feature development for an appointment-booking platform serving 50K+ users and 1,000+ businesses, from research and competitive analysis to interface design and implementation.",
+        "Designed and developed business discovery and search experiences, improving search relevance and simplifying the booking journey.",
+        "Built Google Calendar synchronization, streamlining appointment management and improving operational efficiency for business owners."
+      ],
+      "quantified_metrics": ["50,000+ users", "1,000+ businesses"]
+    }
+  ],
+  "selected_projects": [
+    {
+      "name": "Clairity | AI Workflow Platform",
+      "year": "2026",
+      "description": "Designed an AI sprint advisor that helps team leaders identify delivery risks and prioritize action."
+    },
+    {
+      "name": "Sheba Human Experience & Health Innovation Hackathon",
+      "year": "2021",
+      "result": "1st Place",
+      "description": "Conducted user research and designed a hospital wayfinding solution using Google Indoor Maps."
+    },
+    {
+      "name": "National Hackathon No.4 - Shenkar",
+      "year": "2021",
+      "result": "3rd Place",
+      "description": "Researched user needs and designed a real-time emergency communication platform connecting residents and local authorities."
+    }
+  ],
+  "transferable_experience_notes": [
+    "Front-end development experience (Tabit, WebC) counts toward 'works closely with engineers', 'design systems', and 'technical understanding of implementation constraints' — but NOT toward years as a pure 'Designer' or 'UX Researcher' title.",
+    "B.Sc. Computer Science gives strong technical fluency for Design-Engineer / Design Systems roles that explicitly value a technical background.",
+    "Defense-sector experience (CRG/Israeli Air Force) is relevant evidence for 'works under pressure', 'mission-critical systems', and 'operational/enterprise UX' — flag as a possible sensitivity for some companies, not a gap."
+  ]
+}
