@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { RawJob, Source } from "./types";
+import type { RawJob, Source, WorkModelHint } from "./types";
 
 const smartRecruitersResponseSchema = z.object({
   content: z.array(
@@ -12,11 +12,22 @@ const smartRecruitersResponseSchema = z.object({
         .object({
           city: z.string().optional(),
           country: z.string().optional(),
+          remote: z.boolean().optional(),
+          hybrid: z.boolean().optional(),
         })
         .optional(),
     }),
   ),
 });
+
+function toWorkModelHint(
+  location: { remote?: boolean; hybrid?: boolean } | undefined,
+): WorkModelHint | null {
+  if (!location) return null;
+  if (location.remote) return "remote";
+  if (location.hybrid) return "hybrid";
+  return "office";
+}
 
 function normalize(name: string): string {
   return name.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -55,6 +66,7 @@ export function createSmartRecruitersSource(
           description: "",
           postedAt,
           source: `smartrecruiters:${companyId}`,
+          workModelHint: toWorkModelHint(job.location),
         });
       }
       return jobs;

@@ -1,20 +1,34 @@
 import { z } from "zod";
-import type { RawJob, Source } from "./types";
+import type { RawJob, Source, WorkModelHint } from "./types";
 
 const ashbyResponseSchema = z.object({
   jobs: z.array(
     z.object({
       id: z.string(),
       title: z.string(),
-      locationName: z.string().optional(),
+      location: z.string().optional(),
       employmentType: z.string().optional(),
       publishedAt: z.string().optional(),
       jobUrl: z.url().optional(),
       applyUrl: z.url().optional(),
       descriptionPlain: z.string().optional(),
+      workplaceType: z.string().nullable().optional(),
     }),
   ),
 });
+
+function toWorkModelHint(workplaceType: string | null | undefined): WorkModelHint | null {
+  switch (workplaceType) {
+    case "Remote":
+      return "remote";
+    case "Hybrid":
+      return "hybrid";
+    case "Onsite":
+      return "office";
+    default:
+      return null;
+  }
+}
 
 export function createAshbySource(boardName: string): Source {
   return {
@@ -34,12 +48,13 @@ export function createAshbySource(boardName: string): Source {
         jobs.push({
           company: boardName,
           title: job.title,
-          location: job.locationName ?? null,
+          location: job.location ?? null,
           url,
           description: job.descriptionPlain ?? "",
           postedAt,
           source: `ashby:${boardName}`,
           employmentType: job.employmentType ?? null,
+          workModelHint: toWorkModelHint(job.workplaceType),
         });
       }
       return jobs;

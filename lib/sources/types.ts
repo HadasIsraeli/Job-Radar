@@ -1,3 +1,5 @@
+export type WorkModelHint = "office" | "hybrid" | "remote";
+
 export interface RawJob {
   company: string;
   title: string;
@@ -7,6 +9,10 @@ export interface RawJob {
   postedAt: Date | null;
   source: string;
   employmentType?: string | null;
+  // Set only when the source API exposes a structured work-model field
+  // (e.g. Ashby's `workplaceType`). Normalization prefers this over
+  // guessing from free text.
+  workModelHint?: WorkModelHint | null;
 }
 
 export interface Source {

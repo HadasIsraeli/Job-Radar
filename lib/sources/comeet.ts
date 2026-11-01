@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { htmlToText } from "./html";
 import type { RawJob, Source } from "./types";
 
 // Comeet's public careers API is keyed by an opaque company UID (not a
@@ -38,7 +39,7 @@ export function createComeetSource(companyUid: string): Source {
             title: job.name,
             location: job.location?.name ?? null,
             url: job.url ?? `https://www.comeet.com/jobs/${companyUid}/${job.uid}`,
-            description: job.description ?? "",
+            description: job.description ? htmlToText(job.description) : "",
             postedAt,
             source: `comeet:${companyUid}`,
           };

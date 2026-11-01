@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { htmlToText } from "./html";
 import type { RawJob, Source } from "./types";
 
 const greenhouseResponseSchema = z.object({
@@ -33,7 +34,7 @@ export function createGreenhouseSource(boardToken: string): Source {
           title: job.title,
           location: job.location?.name ?? null,
           url: job.absolute_url,
-          description: job.content ?? "",
+          description: job.content ? htmlToText(job.content) : "",
           postedAt: new Date(job.updated_at),
           source: `greenhouse:${boardToken}`,
         }))
